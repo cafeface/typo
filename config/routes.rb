@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       require File.join(dir, "config", "routes.rb")
     end
   end
+  
+  match 'admin/content/merge/:id', :to => 'admin/content#merge', :format => false
 
   # for CK Editor
   match 'fm/filemanager(/:action(/:id))', :to => 'Fm::Filemanager', :format => false

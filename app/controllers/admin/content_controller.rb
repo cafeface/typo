@@ -26,6 +26,33 @@ class Admin::ContentController < Admin::BaseController
   def new
     new_or_edit
   end
+  
+  def merge
+    id = params[:id]
+    merge_with = params[:merge_with]
+    if id == merge_with
+      redirect_to :action => 'edit', :id => id
+      flash[:error] = _("Error, can't merge article with itself")
+      return
+    end
+    begin
+      dest = Article.find(id)
+      source = Article.find(merge_with)
+    rescue ActiveRecord::RecordNotFound 
+      redirect_to :action => 'edit', :id => id
+      flash[:error] = _("Error, no article with id #{merge_with}")
+      return
+    end
+    unless (dest.access_by? current_user) && (source.access_by? current_user)
+      redirect_to :action => 'index'
+      flash[:error] = _("Error, you are not allowed to perform this action")
+      return
+    end
+    dest.merge_with(merge_with)
+    redirect_to :action => 'index'
+    flash[:notice] = _("Articles successfully merged")
+    return
+  end
 
   def edit
     @article = Article.find(params[:id])
