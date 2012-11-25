@@ -4,15 +4,3 @@
   <%= render :partial => "form" %>
 
 <% end %>
-  
-<div id='Merge_Articles' class='' <%= "style='display: none;'" if current_user.name != 'admin' %> >
-  <%= form_tag({:controller => "admin/content", :action => "merge", :id => @article.id}, :method => "post") do %>
-    <h3><%= _("Merge Articles") %></h3><br>
-    <%= hidden_field_tag 'from_id' 'zed' %>
-    <label>Article ID</label>
-    <%= text_field 'article', 'id', {:autocomplete => 'off', :style => 'width: 20%', :name => 'merge_with'} %>
-    <div class='clearfix'>
-      <input type="submit" id="submit" class='btn' value="<%= _('Merge')%>" name='Merge' />
-    </div>
-  <% end %>
-</div>

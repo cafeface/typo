@@ -29,6 +29,11 @@ class Admin::ContentController < Admin::BaseController
   
   def merge
     id = params[:id]
+    unless current_user.name == 'admin'
+      redirect_to :action => 'edit', :id => id
+      flash[:error] = _("Error, you are not allowed to perform this action")
+      return
+    end
     merge_with = params[:merge_with]
     if id == merge_with
       redirect_to :action => 'edit', :id => id
@@ -41,11 +46,6 @@ class Admin::ContentController < Admin::BaseController
     rescue ActiveRecord::RecordNotFound 
       redirect_to :action => 'edit', :id => id
       flash[:error] = _("Error, no article with id #{merge_with}")
-      return
-    end
-    unless (dest.access_by? current_user) && (source.access_by? current_user)
-      redirect_to :action => 'index'
-      flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
     dest.merge_with(merge_with)
@@ -207,7 +207,11 @@ class Admin::ContentController < Admin::BaseController
     @images = Resource.images_by_created_at.page(params[:page]).per(10)
     @resources = Resource.without_images_by_filename
     @macros = TextFilter.macro_filters
-    render 'new'
+    if current_user.name == 'admin'
+      render 'new_with_merge'
+    else
+      render 'new'
+    end
   end
 
   def set_the_flash
