@@ -75,6 +75,9 @@ class Article < Content
     other_article = Article.find(other_article_id)
     self.body += other_article.body
     self.extended += other_article.extended
+    other_article.comments.each { |comment| 
+      self.comments << Comment.new({:body => comment.body, :author => comment.author})
+    }
     self.save!
     other_article.destroy
   end
