@@ -6,9 +6,9 @@ Feature: Merge Articles
   Background:
     Given the blog is set up
     Given the following articles exist:
-    | title  | author   | body        | extended | published_at        |
-    | Blech  | cafeface | blech body  |          | 20/11/2012 at 20h58 |
-    | Foobar | cafeface | foobar body |          | 20/11/2012 at 20h58 |
+    | title  | body        | extended | published_at        |
+    | Blech  | blech body  |          | 20/11/2012 at 20h58 |
+    | Foobar | foobar body |          | 20/11/2012 at 20h58 |
     
   Scenario: A non-admin cannot merge articles
     Given I am not logged into the admin panel

@@ -1,6 +1,8 @@
 Given /the following articles exist/ do |articles_table|
-  articles_table.hashes.each do |article|
-    Article.create(article)
+  articles_table.hashes.each do |spec|
+    article = Article.new(spec)
+    article.user = User.find_by_name('cafeface')
+    article.save!
   end
 end
 
