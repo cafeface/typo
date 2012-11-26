@@ -14,5 +14,12 @@ Feature: Create Categories
     And I fill in "Description" with "cucumber category"
     And I press "Save"
     Then I should be on the categories page
+    And I should see "Category was successfully saved."
     And I should see "Foobar"
     And I should see "cucumber category"
+    When I follow "Foobar"
+    When I fill in "Keywords" with "blech"
+    And I press "Save"
+    Then I should be on the categories page
+    And I should see "Category was successfully saved."
+    And I should see "blech"
